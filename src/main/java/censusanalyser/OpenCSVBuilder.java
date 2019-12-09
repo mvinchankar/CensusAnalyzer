@@ -4,17 +4,25 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.Reader;
+import java.util.List;
 
 public class OpenCSVBuilder<T> implements ICSBuilder {
-
+    @Override
     public Iterable<T> getCSVFileIterator(Reader reader, Class csvClass) throws CSVBuilderException {
+        return this.getCSVBean(reader, csvClass);
+    }
 
+    @Override
+    public List<T> getCSVFileList(Reader reader, Class csvClass) throws CSVBuilderException {
+        return this.getCSVBean(reader, csvClass).parse();
+    }
+
+    private CsvToBean<T> getCSVBean(Reader reader, Class csvClass) throws CSVBuilderException {
         try {
             CsvToBeanBuilder<T> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
             csvToBeanBuilder.withType(csvClass);
             csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<T> csvToBean = csvToBeanBuilder.build();
-            return csvToBean;
+            return csvToBeanBuilder.build();
         } catch (IllegalStateException e) {
             throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.UNABLE_TO_PARSE);
         }
