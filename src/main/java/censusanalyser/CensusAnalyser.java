@@ -28,8 +28,8 @@ public class CensusAnalyser<T> {
     public int loadIndiaStateCode(String csvFilePath) throws CSVBuilderException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<T> stateCodeCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCodeCSV.class).iterator();
-            return this.getCount(stateCodeCSVIterator);
+           List<IndiaStateCodeCSV> csvFileListStateCode=csvBuilder.getCSVFileList(reader,IndiaStateCodeCSV.class);
+           return csvFileListStateCode.size();
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),
                     CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
