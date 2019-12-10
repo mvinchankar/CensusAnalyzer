@@ -85,5 +85,13 @@ public class CensusAnalyserTest {
         }
     }
 
-
+    @Test
+    public void givenIndianCensusCSVFile_WhenHeaderNotFound_ShouldReturnsException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            int numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        } catch (CSVBuilderException e) {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.INCORRECT_DELIMITER, e.type);
+        }
+    }
 }
