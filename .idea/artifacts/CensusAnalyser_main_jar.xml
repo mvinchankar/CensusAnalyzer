@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CensusAnalyser.main:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CensusAnalyser_main_jar</output-path>
+    <root id="archive" name="CensusAnalyser.main_jar.jar">
+      <element id="archive" name="CensusAnalyser.main.jar">
+        <element id="module-output" name="CensusAnalyser.main" />
+      </element>
+      <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.2.4" />
+      <element id="library" level="project" name="Gradle: commons-logging:commons-logging:1.2" />
+      <element id="library" level="project" name="Gradle: com.opencsv:opencsv:4.0" />
+      <element id="library" level="project" name="Gradle: org.apache.commons:commons-text:1.1" />
+      <element id="library" level="project" name="Gradle: commons-beanutils:commons-beanutils:1.9.3" />
+      <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.6" />
+      <element id="library" level="project" name="Gradle: commons-collections:commons-collections:3.2.2" />
+    </root>
+  </artifact>
+</component>
