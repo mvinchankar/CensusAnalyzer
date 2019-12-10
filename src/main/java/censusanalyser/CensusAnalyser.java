@@ -25,10 +25,12 @@ public class CensusAnalyser<T> {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
-            while(censusCSVIterator.hasNext()){
+            while (censusCSVIterator.hasNext()) {
                 this.censusDAOS.add(new IndiaCensusDAO(censusCSVIterator.next()));
             }
             return censusDAOS.size();
+        } catch (RuntimeException e) {
+            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.INCORRECT_DELIMITER);
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),
                     CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -57,10 +59,10 @@ public class CensusAnalyser<T> {
 
 
     public String getStateWiseSortedCensusData() throws CSVBuilderException {
-        if(censusDAOS == null || censusDAOS.size() == 0){
-            throw new CSVBuilderException("No Census Data",CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
+        if (censusDAOS == null || censusDAOS.size() == 0) {
+            throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
         }
-        Comparator<IndiaCensusDAO>csvComparator=Comparator.comparing(census -> census.state);
+        Comparator<IndiaCensusDAO> csvComparator = Comparator.comparing(census -> census.state);
         this.sort(csvComparator);
         String sortedStateCensus = new Gson().toJson(censusDAOS);
         return sortedStateCensus;
