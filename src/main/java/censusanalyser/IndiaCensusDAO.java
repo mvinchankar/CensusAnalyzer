@@ -1,28 +1,16 @@
 package censusanalyser;
 
-import com.opencsv.bean.CsvBindByName;
-
 public class IndiaCensusDAO {
-
-    @CsvBindByName(column = "State", required = true)
     public String state;
-
-    @CsvBindByName(column = "Population", required = true)
+    public String stateCode;
     public int population;
+    public int areaInSqKms;
+    public int densityPerSqKms;
 
-    @CsvBindByName(column = "AreaInSqKm", required = true)
-    public int areaInSqKm;
-
-    @CsvBindByName(column = "DensityPerSqKm", required = true)
-    public int densityPerSqKm;
-
-    @Override
-    public String toString() {
-        return "IndiaCensusCSV{" +
-                "State='" + state + '\'' +
-                ", Population='" + population + '\'' +
-                ", AreaInSqKm='" + areaInSqKm + '\'' +
-                ", DensityPerSqKm='" + densityPerSqKm + '\'' +
-                '}';
+    public IndiaCensusDAO(IndiaCensusCSV next) {
+        state = next.state;
+        population = next.population;
+        areaInSqKms = next.areaInSqKm;
+        densityPerSqKms = next.densityPerSqKm;
     }
 }
