@@ -1,6 +1,6 @@
 package censusanalyser;
 
-public class CSVBuilderException extends Exception {
+public class CensusException extends Exception {
 
     enum ExceptionType {
         CENSUS_FILE_PROBLEM,UNABLE_TO_PARSE,NO_CENSUS_DATA,INCORRECT_DELIMITER
@@ -8,12 +8,12 @@ public class CSVBuilderException extends Exception {
 
     ExceptionType type;
 
-    public CSVBuilderException(String message, ExceptionType type) {
+    public CensusException(String message, ExceptionType type) {
         super(message);
         this.type = type;
     }
 
-    public CSVBuilderException(String message, ExceptionType type, Throwable cause) {
+    public CensusException(String message, ExceptionType type, Throwable cause) {
         super(message, cause);
         this.type = type;
     }
