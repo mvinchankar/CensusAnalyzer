@@ -14,6 +14,7 @@ public class CensusAnalyserTest {
     private static final String INCORRECT_INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
     private static final String INCORRECT_DELIMITER_FILE_PATH = "./src/test/resources/InCorrectDelimiter.csv";
     private static final String INCORRECT_HEADER_FILE_PATH = "./src/test/resources/InCorrectHeader.csv";
+    private static final String INCORRECT_INDIA_STATE_CODE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
 
     @Test
     public void givenIndianCensusCSVFileReturnsCorrectRecords() {
@@ -150,6 +151,18 @@ public class CensusAnalyserTest {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             int numOfRecords = censusAnalyser.loadIndiaCensusData(INCORRECT_HEADER_FILE_PATH);
+        } catch (CensusException e) {
+            Assert.assertEquals(CensusException.ExceptionType.INCORRECT_DELIMITER, e.type);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenStateCodeCSVFile_WhenIncorrectFilePath_ShouldReturnsException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(INCORRECT_INDIA_STATE_CODE_CSV_FILE_PATH);
         } catch (CensusException e) {
             Assert.assertEquals(CensusException.ExceptionType.INCORRECT_DELIMITER, e.type);
         } catch (CSVBuilderException e) {
