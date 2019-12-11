@@ -15,7 +15,7 @@ public class CensusAnalyserTest {
     private static final String INCORRECT_DELIMITER_FILE_PATH = "./src/test/resources/InCorrectDelimiter.csv";
     private static final String INCORRECT_HEADER_FILE_PATH = "./src/test/resources/InCorrectHeader.csv";
     private static final String INCORRECT_INDIA_STATE_CODE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
-    private static final String EMPTY_FILE_PATH = ".src/test/resources/Empty.csv";
+    private static final String EMPTY_FILE_PATH=".src/test/resources/Empty.csv";
 
     @Test
     public void givenIndianCensusCSVFileReturnsCorrectRecords() {
@@ -180,4 +180,17 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusException.ExceptionType.INCORRECT_DELIMITER, e.type);
         }
     }
+
+    @Test
+    public void givenIndianCensusData_hasNULLValues_ShouldReturnSortedResult() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        String stateWiseSortedCensusData = null;
+        try {
+            stateWiseSortedCensusData = censusAnalyser.getStateWiseSortedCensusData();
+            IndiaCensusDAO[] censusCSV = new Gson().fromJson(stateWiseSortedCensusData, IndiaCensusDAO[].class);
+        } catch (CensusException e) {
+            Assert.assertEquals(CensusException.ExceptionType.NO_CENSUS_DATA, e.type);
+        }
+    }
+
 }
