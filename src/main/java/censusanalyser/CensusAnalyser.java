@@ -29,31 +29,14 @@ public class CensusAnalyser<T> {
                 census.populationDensity, Comparator.reverseOrder()));
     }
 
-    public int loadIndiaCensusData(String csvFilePath) throws CensusException {
-        censusDAOMap = new CensusLoader().loadCensusData(csvFilePath, IndiaCensusCSV.class);
+    public int loadIndiaCensusData(String ... csvFilePath) throws CensusException {
+        censusDAOMap = new CensusLoader().loadCensusData(IndiaCensusCSV.class,csvFilePath);
         return censusDAOMap.size();
     }
 
-    public int loadUSCensusData(String csvFilePath) throws CensusException {
-        censusDAOMap = new CensusLoader().loadCensusData(csvFilePath, USCensusCSV.class);
+    public int loadUSCensusData(String ... csvFilePath) throws CensusException {
+        censusDAOMap = new CensusLoader().loadCensusData(USCensusCSV.class,csvFilePath);
         return censusDAOMap.size();
-    }
-
-    public int loadIndiaStateCode(String csvFilePath) throws CensusException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            ICSBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaStateCodeCSV> csvStateCode = csvBuilder.getCSVFileIterator(reader, IndiaStateCodeCSV.class);
-            Iterable<IndiaStateCodeCSV> stateCodeCSVS = () -> csvStateCode;
-            StreamSupport.stream(stateCodeCSVS.spliterator(), false)
-                    .filter(csvState -> censusDAOMap.get(csvState.state) != null)
-                    .forEach(csvState -> censusDAOMap.get(csvState.state).stateCode = csvState.stateCode);
-            return censusDAOMap.size();
-        } catch (IOException | CSVBuilderException e) {
-            throw new CensusException(e.getMessage(),
-                    CensusException.ExceptionType.CENSUS_FILE_PROBLEM);
-        } catch (RuntimeException e) {
-            throw new CensusException(e.getMessage(), CensusException.ExceptionType.INCORRECT_DELIMITER);
-        }
     }
 
     public String getFieldWiseSortedCensusData(FieldsToSort fieldName) throws CensusException {
