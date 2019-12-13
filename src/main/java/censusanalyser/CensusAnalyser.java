@@ -24,6 +24,9 @@ public class CensusAnalyser<T> {
                 census.totalArea, Comparator.reverseOrder()));
         this.fields.put(FieldsToSort.densityPerSqKm, Comparator.comparing(census ->
                 census.populationDensity, Comparator.reverseOrder()));
+        Comparator<CensusDAO> comparing = Comparator.comparing(census ->
+                census.population, Comparator.reverseOrder());
+        this.fields.put(FieldsToSort.population_density, comparing.thenComparing(census -> census.totalArea));
     }
 
     public int loadCensusData(String... csvFilePath) throws CensusException {
@@ -32,13 +35,12 @@ public class CensusAnalyser<T> {
         return censusDAOMap.size();
     }
 
-    public String getFieldWiseSortedCensusData(FieldsToSort fieldsToSort, FieldsToSort fieldsToSort2) throws CensusException {
+    public String getFieldWiseSortedCensusData(FieldsToSort fieldsToSort) throws CensusException {
         if (censusDAOMap == null || censusDAOMap.size() == 0) {
             throw new CensusException("No Census Data", CensusException.ExceptionType.NO_CENSUS_DATA);
         }
         ArrayList arrayList = censusDAOMap.values().stream()
                 .sorted(this.fields.get(fieldsToSort))
-                .sorted(this.fields.get(fieldsToSort2))
                 .map(censusDAO -> censusDAO.getCensusDTO(country))
                 .collect(toCollection(ArrayList::new));
         String sortedStateCensus = new Gson().toJson(arrayList);

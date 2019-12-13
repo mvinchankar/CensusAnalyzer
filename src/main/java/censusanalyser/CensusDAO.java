@@ -10,8 +10,8 @@ public class CensusDAO {
     public CensusDAO(IndiaCensusCSV next) {
         state = next.state;
         population = next.population;
-        totalArea = next.areaInSqKm;
         populationDensity = next.densityPerSqKm;
+        totalArea = next.areaInSqKm;
     }
 
     public CensusDAO(USCensusCSV next) {
