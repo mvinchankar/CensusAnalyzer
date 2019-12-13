@@ -3,7 +3,6 @@ package censusanalyser;
 import com.google.gson.Gson;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -27,22 +26,19 @@ public class CensusAnalyser<T> {
                 census.populationDensity, Comparator.reverseOrder()));
     }
 
-    public CensusAnalyser() {
-        this.censusDAOMap = new HashMap();
-    }
-
     public int loadCensusData(String... csvFilePath) throws CensusException {
         CensusAdapter censusFactory = CensusFactory.CountryObject(country);
         censusDAOMap = censusFactory.loadCensusData(csvFilePath);
         return censusDAOMap.size();
     }
 
-    public String getFieldWiseSortedCensusData(FieldsToSort fieldsToSort) throws CensusException {
+    public String getFieldWiseSortedCensusData(FieldsToSort fieldsToSort, FieldsToSort fieldsToSort2) throws CensusException {
         if (censusDAOMap == null || censusDAOMap.size() == 0) {
             throw new CensusException("No Census Data", CensusException.ExceptionType.NO_CENSUS_DATA);
         }
         ArrayList arrayList = censusDAOMap.values().stream()
                 .sorted(this.fields.get(fieldsToSort))
+                .sorted(this.fields.get(fieldsToSort2))
                 .map(censusDAO -> censusDAO.getCensusDTO(country))
                 .collect(toCollection(ArrayList::new));
         String sortedStateCensus = new Gson().toJson(arrayList);

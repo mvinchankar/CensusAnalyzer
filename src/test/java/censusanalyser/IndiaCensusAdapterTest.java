@@ -43,7 +43,7 @@ public class IndiaCensusAdapterTest {
                     INDIA_CENSUS_CSV_FILE_PATH);
             Assert.assertEquals(29, map.size());
         } catch (CensusException e) {
-            Assert.assertEquals(CensusException.ExceptionType.INCORRECT_DELIMITER, e.type);
+            Assert.assertEquals(CensusException.ExceptionType.FILE_MISSING, e.type);
 
         }
     }
