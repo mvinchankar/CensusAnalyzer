@@ -174,7 +174,7 @@ public class CensusAnalyserTest {
     }
 
     @Test
-    public void givenIndianCensusData_whenSortedOnPopulationButSameTwoOrMoreStatesThenSortByDensity_ShouldReturnSortedResult() {
+    public void givenIndianCensusData_whenSortedOnPopulationButSameValuesOfStates_ThenSortByDensity() {
         CensusAnalyser censusAnalyser = new CensusAnalyser(CensusAnalyser.Country.INDIA);
         try {
             censusAnalyser.loadCensusData(INDIA_CENSUS_CSV_FILE_PATH, INDIA_STATE_CSV_PATH);
